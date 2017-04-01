@@ -3,6 +3,7 @@
 # Tests and its results
 results/
 tmp/
+bin/
 
 # Haul
 .happypack/
