@@ -9,7 +9,7 @@ import promisify from './promisify';
 
 async function noClear() {
   await patch('node_modules/haul-cli/src/commands/start.js', [{
-    pattern: `const chalk = require('clear');`,
+    pattern: `const clear = require('clear');`,
     code: `const clear=function(){};//`
   }]);
 }
