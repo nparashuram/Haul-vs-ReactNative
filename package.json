@@ -4,7 +4,7 @@
   "description": "Comparing the performance of the React Native packager and Haul",
   "main": "index.js",
   "scripts": {
-    "run": "babel-node src/index.js"
+    "test": "babel-node src/index.js"
   },
   "author": "Parashuram <code@nparashuram.com>",
   "license": "ISC",
