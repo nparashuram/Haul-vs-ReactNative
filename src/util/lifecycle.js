@@ -2,11 +2,10 @@ import fs from 'fs-extra';
 import path from 'path';
 import child_process from 'child_process';
 
-import debug from 'debug';
-
 import promisify from './promisify';
 import { dirs } from './constants';
 
+import debug from 'debug';
 const log = debug('hvrn:lifecycle');
 
 export async function cleanup() {
@@ -25,5 +24,4 @@ export async function createReactNativeApp() {
   await promisify(fs.copy, fs, dirs.testAppSrc, dirs.testAppBin);
   await promisify(child_process.exec, child_process, 'npm install', { cwd: dirs.testAppBin });
   await promisify(child_process.exec, child_process, 'node_modules/.bin/react-native eject', { cwd: dirs.testAppBin });
-  await addInstrumentation();
 }

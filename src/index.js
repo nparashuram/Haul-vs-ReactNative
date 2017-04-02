@@ -1,13 +1,19 @@
 import "babel-polyfill";
 import "babel-core/register";
 
-import { dirs } from './util/constants';
-
 import { setup, cleanup, createReactNativeApp } from './util/lifecycle.js';
-import instrument from './util/instrument';
+import { add_v8Profiler, add_hrtime } from './util/profiler';
+import testcases from './cases';
 
 async function run() {
-  await instrument();
+  await cleanup();
+  await setup();
+  await createReactNativeApp();
+  await add_hrtime();
+
+  for (var key in testcases) {
+    await testcases[key]();
+  }
 }
 
-run().then((res) => console.log(res), err => console.log(err));
+run().then(console.log.bind(console), console.log.bind(console));
