@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistr } from 'react-native';
+import { AppRegistry } from 'react-native';
 
 import Component0 from './Component0.js';
 
