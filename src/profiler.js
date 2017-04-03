@@ -1,6 +1,8 @@
 import readline from 'readline';
 
 import patch from './util/patch';
+import debug from 'debug';
+const log = debug('hvrn:profiler');
 
 async function noClear() {
   await patch('node_modules/haul-cli/src/commands/start.js', [{
@@ -11,19 +13,19 @@ async function noClear() {
 
 export class HighResolutionTimer {
   results = []
-  triggerLine = '<<< ===== Bundle Time ====='
+  static triggerLine = '<<< ===== Bundle Time ====='
 
   record(packager) {
     const rl = readline.createInterface({ input: packager.stdout });
     rl.on('line', line => {
-      if (line.indexOf(this.triggerLine) >= 0) {
-        this.results.push(parseFloat(line.replace(this.triggerLine, '')));
+      if (line.indexOf(HighResolutionTimer.triggerLine) >= 0) {
+        this.results.push(parseFloat(line.replace(HighResolutionTimer.triggerLine, '')));
       }
     });
   }
 
-  async instrument() {
-    // Add instrumentation to React Native
+  static async instrument() {
+    log('Adding High Resolution timer to React Native');
     await patch('node_modules/react-native/packager/src/Server/index.js', [
       {
         pattern: `debug('Getting bundle for request');`,
@@ -34,13 +36,13 @@ export class HighResolutionTimer {
         pattern: `if (requestType === 'bundle')`,
         code: `
         var diff = process.hrtime(__start_time__);
-        console.log("${this.triggerLine}", (diff[0] * 1e9 + diff[1])/1e9);
+        console.log("${HighResolutionTimer.triggerLine}", (diff[0] * 1e9 + diff[1])/1e9);
         __start_time__ = null;
         `
       }]
     );
 
-    // Add instrumentation to Haul
+    log('Adding High Resolution timer to Haul');
     await noClear();
     await patch('node_modules/haul-cli/src/utils/makeReactNativeConfig.js', [
       {
@@ -56,7 +58,7 @@ export class HighResolutionTimer {
           if (__start_time__ === null) {__start_time__ = process.hrtime();}
           if (percent === 1) {
             var diff = process.hrtime(__start_time__);
-            console.log("${this.triggerLine}", (diff[0] * 1e9 + diff[1])/1e9);
+            console.log("${HighResolutionTimer.triggerLine}", (diff[0] * 1e9 + diff[1])/1e9);
             __start_time__ = null;
           }
         }),

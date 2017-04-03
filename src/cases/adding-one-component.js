@@ -1,48 +1,33 @@
-import { createComponent, addChildComponent, requestBundle } from './../util/component';
+import { createComponent, addChildComponent } from './../util/component';
 
 import debug from 'debug';
 const log = debug('hvrn:test:add-one-component');
 
-import { testCase } from './../testRunner';
+import { testCase, defaultCleanup, defaultSetup } from './../testRunner';
 import { HighResolutionTimer } from './../profiler';
-import packager from './../packager';
 import { sleep } from './../util/promisify';
 
-import * as lifecycle from './../util/lifecycle'
-
 export default testCase('Adding One Component at a time', (setup, test, cleanup) => {
-  let myPackager;
 
-  let hrtimer = new HighResolutionTimer();
+  setup(defaultSetup(HighResolutionTimer));
 
-  setup(async () => {
-    await lifecycle.cleanup();
-    await lifecycle.setup();
-    await lifecycle.createReactNativeApp();
-    await hrtimer.instrument();
-  });
+  test(async (packager, addResult) => {
+    let hrtimer = new HighResolutionTimer();
+    hrtimer.record(packager);
 
-  test(async () => {
-    myPackager = await packager.haul.start();
-    hrtimer.record(myPackager);
-
-    await myPackager.fetchBundle();
+    await packager.fetchBundle();
     sleep(20000);
+    addResult(0, hrtimer.results[0]);
 
-    for (var i = 1; i < 10; i++) {
-      log('Adding Component ', i);
+    for (var i = 1; i < 5; i++) {
+      await sleep(5000);
       await createComponent(`Component${i}`);
       await addChildComponent(`Component${i - 1}`, `Component${i}`);
+      log('Added Component ', i);
       await sleep(5000);
-      await myPackager.fetchBundle();
-      await sleep(10000);
+      await packager.fetchBundle();
+      addResult(i, hrtimer.results[i]);
     }
-
-    console.log(hrtimer.results);
   });
 
-  cleanup(async () => {
-    myPackager.kill();
-    await cleanup();
-  });
 });
