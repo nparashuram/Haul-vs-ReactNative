@@ -15,6 +15,7 @@ export default class extends Component {
       <View style={styles.container}>
         <Text style={styles.instructions}>
           Container __ID__
+          __RAND__
         </Text>
         {/*Child_Components:Start*/}
         {/*Child_Components:End*/}
