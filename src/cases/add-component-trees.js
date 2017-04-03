@@ -23,7 +23,7 @@ export default testCase('Adding One Component at a time', (setup, test, cleanup)
   });
 
   test(async () => {
-    myPackager = await packager.haul.start();
+    myPackager = await packager.reactNative.start();
     hrtimer.record(myPackager);
 
     await myPackager.fetchBundle();
@@ -33,9 +33,9 @@ export default testCase('Adding One Component at a time', (setup, test, cleanup)
       log('Adding Component ', i);
       await createComponent(`Component${i}`);
       await addChildComponent(`Component${i - 1}`, `Component${i}`);
-      await sleep(5000);
+      await sleep(15000);
       await myPackager.fetchBundle();
-      await sleep(10000);
+      await sleep(5000);
     }
 
     console.log(hrtimer.results);

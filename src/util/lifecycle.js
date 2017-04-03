@@ -20,8 +20,7 @@ export async function setup() {
 
 export async function createReactNativeApp() {
   log('Bootstrapping React Native in', dirs.testAppBin);
-
   await promisify(fs.copy, fs, dirs.testAppSrc, dirs.testAppBin);
-  await promisify(child_process.exec, child_process, 'npm install', { cwd: dirs.testAppBin });
+  await promisify(child_process.exec, child_process, `yarn install`, { cwd: dirs.testAppBin });
   await promisify(child_process.exec, child_process, 'node_modules/.bin/react-native eject', { cwd: dirs.testAppBin });
 }

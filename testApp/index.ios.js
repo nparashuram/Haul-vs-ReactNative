@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppRegistr } from 'react-native';
 
-import App from './App.js';
+import Component0 from './Component0.js';
 
-AppRegistry.registerComponent('testApp', () => App);
+AppRegistry.registerComponent('testApp', () => Component0);
