@@ -1,7 +1,7 @@
 
 
 # Tests and its results
-results/
+_results.json
 tmp/
 bin/
 

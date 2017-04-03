@@ -19,7 +19,7 @@ export default testCase('Adding One Component at a time', (setup, test, cleanup)
     sleep(20000);
     addResult(0, hrtimer.results[0]);
 
-    for (var i = 1; i < 5; i++) {
+    for (var i = 1; i < 20; i++) {
       await sleep(5000);
       await createComponent(`Component${i}`);
       await addChildComponent(`Component${i - 1}`, `Component${i}`);
