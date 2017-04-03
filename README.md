@@ -2,6 +2,13 @@
 
 An experiment to determine the performance characteristics of the stock React Native packages vs Webpack based [Haul](https://github.com/callstack-io/haul/). 
 
+## Automated testing
+
+To run all the test cases under `src/cases`, clone this repo, run `npm install` and then `npm test`. To view detailed logs for the tests, ensure that you set an environment variable `export DEBUG='hvrn:*'`.
+
+The results are available in `_results.json`. The tests can be run multiple times to aggregate the results in the json file. 
+
+
 ## Manual Profiling
 
 1. Download this repo
@@ -13,7 +20,3 @@ An experiment to determine the performance characteristics of the stock React Na
 
 These show the first transform times for each packager. To see how they react to changes, change `App.js` file. Note that for React Native packager to trigger a re-transform, you may need to fetch the bundle again using `curl http://localhost:8081/index.ios.bundle`
 
-## Automated testing
-
-Running these test automatically, multiple times is work in progress, and the reason why this project is being built. Checkout `src/cases` for the various test cases.
-The goal is to run the transform multiple times, with and without the cache, adding multiple modules, etc. 
