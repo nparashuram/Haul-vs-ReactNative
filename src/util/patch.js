@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 import debug from 'debug';
-const log = debug('hvrn:instrument');
+const log = debug('hvrn:patch');
 
 import { dirs } from './constants';
 import promisify from './promisify';
