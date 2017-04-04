@@ -10,11 +10,11 @@ import promisify from './promisify';
 export default async function (name, patches) {
   let fileName = path.join(dirs.testAppBin, name);
   let data = await promisify(fs.readFile, fs, fileName, 'utf-8');
-  patches.forEach(({ pattern, code }) => {
+  patches.forEach(({ pattern, code, replace = false }) => {
     if (data.indexOf(code) !== -1) {
       log(`Looks like code already injected in ${name} for ${pattern}`);
     } else {
-      data = data.replace(pattern, `${code}${pattern}`);
+      data = data.replace(pattern, `${code}${replace ? '' : pattern}`);
     }
   });
   return await promisify(fs.writeFile, fs, fileName, data, 'utf-8');
