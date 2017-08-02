@@ -7,9 +7,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "haul-cli": "^0.1.4",
-    "react": "~15.4.1",
-    "react-native": "0.42.3",
+    "haul-cli": "^0.6.0",
+    "react": "16.0.0-alpha.12",
+    "react-native": "0.47.0",
     "v8-profiler": "^5.7.0"
   },
   "devDependencies": {

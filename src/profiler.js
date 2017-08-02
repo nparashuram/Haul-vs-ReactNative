@@ -26,7 +26,7 @@ export class HighResolutionTimer {
 
   static async instrument() {
     log('Adding High Resolution timer to React Native');
-    await patch('node_modules/react-native/packager/src/Server/index.js', [
+    await patch('node_modules/metro-bundler/src/Server/index.js', [
       {
         pattern: `debug('Getting bundle for request');`,
         code: `
